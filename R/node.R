@@ -52,21 +52,21 @@ execute.sewage_node = function(node, envir = parent.frame()) {
   return(envir$pipeline)
 }
 
-# execute.sewage_splitter = function(splitter, envir = parent.frame()) {
-#   outputs = envir$pipeline$outputs
-#   input  = node[['input']]
-#
-#   output = list()
-#
-#   for(i in 1:splitter$edges) {
-#     output[[i]] = input
-#   }
-#
-#   names(output) = paste0(splitter$name, ".output_", 1:splitter$edges)
-#   envir$pipeline$outputs = output
-#
-#   return(envir$pipeline)
-# }
+execute.sewage_splitter = function(splitter, envir = parent.frame()) {
+  outputs = envir$pipeline$outputs
+  input  = splitter[['input']]
+
+  output = list()
+
+  for(i in 1:splitter$edges) {
+    output[[i]] = outputs[[input]]
+  }
+
+  names(output) = paste0(splitter$name, ".output_", 1:splitter$edges)
+  envir$pipeline$outputs = output
+
+  return(envir$pipeline)
+}
 
 
 execute = function(x, ...) {
