@@ -29,7 +29,7 @@ run = function(pipeline, ...) {
   nodes = pipeline$nodes
 
   for(node in nodes) {
-    pipeline = execute_node(node)
+    pipeline = execute(node)
   }
 
   return(pipeline)
