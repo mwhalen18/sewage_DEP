@@ -24,7 +24,6 @@ add_node = function(pipeline, component, name, input, ...) {
   dots = list(...)
   captured_component = substitute(component)
 
-
   pipeline = add_component_to_pipeline(component)
   return(pipeline)
 }
@@ -42,8 +41,11 @@ add_component_to_pipeline.function = function(component, envir = parent.frame())
 }
 
 add_component_to_pipeline.sewage_splitter = function(splitter, envir = parent.frame()) {
-  return(NULL)
-  #call = construct_caller(envir = envir)
+  splitter$input = envir$input
+  splitter$name = envir$name
+
+  envir$pipeline[['nodes']][[envir$name]] = splitter
+  return(envir$pipeline)
 }
 
 construct_caller = function(envir = parent.frame()) {

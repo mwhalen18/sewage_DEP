@@ -18,26 +18,24 @@ is_node = function(x) {
   inherits(x, "sewage_node")
 }
 
-# Splitter = function(edges = 2, input, name) {
-#   out = init_splitter()
-#   return(out)
-# }
-#
-# init_splitter = function(envir = parent.frame()) {
-#   splitter = list(
-#     edges = envir$edges,
-#     name = envir$name,
-#     input = envir$input
-#   )
-#
-#   structure(splitter, class = "sewage_splitter")
-#
-#   return(splitter)
-# }
-#
-# is_splitter = function(x) {
-#   inherits(x, "sewage_splitter")
-# }
+Splitter = function(edges = 2) {
+  out = init_splitter()
+  return(out)
+}
+
+init_splitter = function(envir = parent.frame()) {
+  splitter = list(
+    edges = envir$edges
+  )
+
+  attr(splitter, "class") = "sewage_splitter"
+
+  return(splitter)
+}
+
+is_splitter = function(x) {
+  inherits(x, "sewage_splitter")
+}
 
 execute.sewage_node = function(node, envir = parent.frame()) {
   outputs = envir$pipeline$outputs
