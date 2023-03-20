@@ -44,10 +44,16 @@ execute.sewage_node = function(node, envir = parent.frame()) {
   call[[2]] = outputs[[input]]
   output = eval(call)
 
-  name = node$name
+  output = list(name = output)
+  names(output) = node$name
 
-  envir$pipeline$outputs = list(name = output)
-  names(envir$pipeline$outputs) = c(name)
+  out = c(outputs, output)
+  out[[input]] = NULL
+
+  # name = node$name
+
+  envir$pipeline$outputs = out
+  #names(envir$pipeline$outputs) = c(name)
 
   return(envir$pipeline)
 }
@@ -63,7 +69,11 @@ execute.sewage_splitter = function(splitter, envir = parent.frame()) {
   }
 
   names(output) = paste0(splitter$name, ".output_", 1:splitter$edges)
-  envir$pipeline$outputs = output
+
+  out = c(outputs, output)
+  out[[input]] = NULL
+
+  envir$pipeline$outputs = out
 
   return(envir$pipeline)
 }
