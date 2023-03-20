@@ -42,7 +42,7 @@ execute.sewage_node = function(node, envir = parent.frame()) {
   input = node[['input']]
   call = node$call
   call[[2]] = outputs[[input]]
-  output = eval(call)
+  output = eval(call, envir = parent.frame(n = 2))
 
   output = list(name = output)
   names(output) = node$name

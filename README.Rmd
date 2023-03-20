@@ -10,8 +10,9 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  eval=FALSE
+  eval=TRUE
 )
+devtools::load_all()
 ```
 
 # sewage
@@ -56,10 +57,11 @@ The first node in your pipeline should specify the argument that will be passed 
 Note outputs of a Splitter are accessible by specifying the name of the splitter component (In this case `Splitter`) suffixed with the outgoing edge in the format `.output_{i}`. Currently this suffix cannot be modified
 
 ```{r}
+library(readr)
 pipeline = Pipeline()
 
 pipeline = pipeline |>
-  add_node(component = read_csv, name = "Reader", input = "file") |>
+  add_node(component = read.csv, name = "Reader", input = "file") |>
   add_node(component = subset_data, name = "Subsetter", input = "Reader") |>
   add_node(component = Splitter(), name = "Splitter", input = "Subsetter") |>
   add_node(component = summarizer, name = "Summarizer", input = "Splitter.output_1")
