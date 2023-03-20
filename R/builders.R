@@ -40,6 +40,9 @@ add_node = function(pipeline, component, name, input, ...) {
 }
 
 add_node_to_pipeline = function(pipeline, name, node, ...) {
+  if (!is_node(node)) {
+    stop("Node must be a sewage_node")
+  }
   pipeline[['nodes']][[name]] = node
   return(pipeline)
 }
