@@ -1,6 +1,6 @@
 Node = function(input, call, name) {
   out = init_node()
-  attr(out, "class") = "sewage"
+  attr(out, "class") = "sewage_node"
   return(out)
 }
 

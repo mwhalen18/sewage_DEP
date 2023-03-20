@@ -12,12 +12,9 @@ add_node = function(pipeline, component, name, input, ...) {
     stop("'pipeline' must be of class 'sewage_pipeline'")
   }
 
-  if (!is.function(component)) {
-    if (is.character(component)) {
-      stop("component cannot be a character. You should convert your function to a symbol (see as.symbol())")
-    } else {
-      stop("component must be function")
-    }
+
+  if (is.character(component)) {
+    stop("component cannot be a character. You should convert your function to a symbol (see as.symbol())")
   }
 
   if (!is.character("name")) {
@@ -26,25 +23,27 @@ add_node = function(pipeline, component, name, input, ...) {
 
   dots = list(...)
   captured_component = substitute(component)
-  call = construct_caller()
 
-  node = Node(
-    name = name,
-    input = input,
-    call = call
-  )
 
-  pipeline = add_node_to_pipeline(pipeline, name, node)
-
+  pipeline = add_component_to_pipeline(component)
   return(pipeline)
 }
 
-add_node_to_pipeline = function(pipeline, name, node, ...) {
-  if (!is_node(node)) {
-    stop("Node must be a sewage_node")
-  }
-  pipeline[['nodes']][[name]] = node
-  return(pipeline)
+add_component_to_pipeline.function = function(component, envir = parent.frame()) {
+  call = construct_caller(envir = envir)
+  node = Node(
+    name = envir$name,
+    input = envir$input,
+    call = call
+  )
+
+  envir$pipeline[['nodes']][[envir$name]] = node
+  return(envir$pipeline)
+}
+
+add_component_to_pipeline.sewage_splitter = function(splitter, envir = parent.frame()) {
+  return(NULL)
+  #call = construct_caller(envir = envir)
 }
 
 construct_caller = function(envir = parent.frame()) {
@@ -55,4 +54,8 @@ construct_caller = function(envir = parent.frame()) {
   args = c(as.list(.FUN), input, dots)
 
   as.call(args)
+}
+
+add_component_to_pipeline = function(x, ...) {
+  UseMethod("add_component_to_pipeline", x)
 }
