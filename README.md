@@ -53,7 +53,6 @@ edge in the format `.output_{i}`. Currently this suffix cannot be
 modified
 
 ``` r
-library(readr)
 pipeline = Pipeline()
 
 pipeline = pipeline |>
