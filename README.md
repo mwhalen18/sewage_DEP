@@ -61,10 +61,18 @@ pipeline = Pipeline()
 
 pipeline = pipeline |>
   add_node(component = read.csv, name = "Reader", input = "file") |>
-  add_node(component = subset_data, name = "Subsetter", input = "Reader") |>
-  add_node(component = Splitter(), name = "Splitter", input = "Subsetter") |>
+  add_node(component = Splitter(), name = "Splitter", input = "Reader") |>
+  add_node(component = subset_data, name = "Subsetter", input = "Splitter.output_2") |>
   add_node(component = summarizer, name = "Summarizer", input = "Splitter.output_1")
 ```
+
+We can easily visualize our pipeline using the `draw` method.
+
+``` r
+draw(pipeline)
+```
+
+![](man/figures/pipeline-vis.png)
 
 Here we execute the pipeline with the `run` command. It is important to
 note that the argument you pass to run should match the `input` argument
@@ -83,12 +91,12 @@ We can now access the results of our terminating nodes. A terminating
 node is any node that is not specified as input. By default when the
 pipeline is run, each node will overwrite the output of its input node.
 Therefore any node that is not fed forward to a new node will return
-output. In the case of this pipeline, the `Splitter.output2` and
-`Summarizer` edges are our terminating nodes. Therefore, we can access
-their results in the `outputs` object of the pipeline
+output. In the case of this pipeline, the `Subsetter` and `Summarizer`
+edges are our terminating nodes. Therefore, we can access their results
+in the `outputs` object of the pipeline
 
 ``` r
-result$outputs$Splitter.output_2
+result$outputs$Subsetter
 #>                 X  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #> 1       Mazda RX4 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #> 2   Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
@@ -102,7 +110,7 @@ result$outputs$Splitter.output_2
 ``` r
 result$outputs$Summarizer
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   145.0   160.0   167.6   183.3   196.3   258.0
+#>    71.1   120.8   196.3   230.7   326.0   472.0
 ```
 
 # Why sewage?

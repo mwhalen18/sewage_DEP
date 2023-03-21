@@ -63,10 +63,19 @@ pipeline = Pipeline()
 
 pipeline = pipeline |>
   add_node(component = read.csv, name = "Reader", input = "file") |>
-  add_node(component = subset_data, name = "Subsetter", input = "Reader") |>
-  add_node(component = Splitter(), name = "Splitter", input = "Subsetter") |>
+  add_node(component = Splitter(), name = "Splitter", input = "Reader") |>
+  add_node(component = subset_data, name = "Subsetter", input = "Splitter.output_2") |>
   add_node(component = summarizer, name = "Summarizer", input = "Splitter.output_1")
 ```
+
+We can easily visualize our pipeline using the `draw` method.
+
+```{r, eval=FALSE}
+draw(pipeline)
+```
+
+
+![](man/figures/pipeline-vis.png)
 
 Here we execute the pipeline with the `run` command. It is important to note that the argument you pass to run should match the `input` argument of your first node in your pipeline. In this case we are passing a `file` argument in `run` and similarly our first node is set to receive a `file` argument as input.
 
@@ -76,10 +85,10 @@ You may choose any argument you like, as long as these two arguments match!
 result = run(pipeline, file = 'temp.csv')
 ```
 
-We can now access the results of our terminating nodes. A terminating node is any node that is not specified as input. By default when the pipeline is run, each node will overwrite the output of its input node. Therefore any node that is not fed forward to a new node will return output. In the case of this pipeline, the `Splitter.output2` and `Summarizer` edges are our terminating nodes. Therefore, we can access their results in the `outputs` object of the pipeline
+We can now access the results of our terminating nodes. A terminating node is any node that is not specified as input. By default when the pipeline is run, each node will overwrite the output of its input node. Therefore any node that is not fed forward to a new node will return output. In the case of this pipeline, the `Subsetter` and `Summarizer` edges are our terminating nodes. Therefore, we can access their results in the `outputs` object of the pipeline
 
 ```{r}
-result$outputs$Splitter.output_2
+result$outputs$Subsetter
 ```
 
 ```{r}
