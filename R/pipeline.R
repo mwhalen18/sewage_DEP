@@ -10,7 +10,7 @@ Pipeline = function() {
 #'
 #' This function is the extry point for executing a pipeline object
 #' @param pipeline an initialized pipeline object
-#' @param ... parameter to pass to first node of the pipeline. This should match the \code{input} parameter of \code{add_node} of the first node.
+#' @param ... parameter to pass to first node of the pipeline. This should match the `input` parameter of `add_node` of the first node.
 #' @export
 run = function(pipeline, ...) {
 

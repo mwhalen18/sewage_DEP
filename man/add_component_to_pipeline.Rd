@@ -7,7 +7,7 @@
 add_component_to_pipeline(component, envir)
 }
 \arguments{
-\item{component}{an object o either `Node` or `Splitter`}
+\item{component}{an object o either \code{Node} or \code{Splitter}}
 
 \item{envir}{calling environment. Used for construction of calls from the pipeline entry}
 }
