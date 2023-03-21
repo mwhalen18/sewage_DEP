@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/mwhalen18/sewage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mwhalen18/sewage/actions/workflows/R-CMD-check.yaml)
-\#’ <!-- badges: end -->
+<!-- badges: end -->
 
 The goal of sewage is to provide a light-weight pipelining interface for
 data analyses. It acts as a stop-gap solution between chaotic scripting
