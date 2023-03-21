@@ -93,4 +93,23 @@ execute.sewage_node = function(x, envir = parent.frame()) {
   return(envir$pipeline)
 }
 
+#' @export
+execute.sewage_joiner = function(x, envir = parent.frame()) {
+  outputs = envir$pipeline$outputs
+  inputs = x[['input']]
+  call = x$call
+  call[[2]] = outputs[[inputs[1]]]
+  call[[3]] = outputs[[inputs[2]]]
 
+  output = eval(call, envir = parent.frame(n = 2))
+
+  output = list(name = output)
+  names(output) = x$name
+  out = c(outputs, output)
+
+  out[inputs] = NULL
+
+  envir$pipeline$outputs = out
+  return(envir$pipeline)
+
+}
