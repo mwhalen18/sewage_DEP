@@ -1,10 +1,11 @@
-
 #' add node to a sewage pipeline
 #'
 #' `add_node()` will place a new node in the specified pipeline. This will be executed sequentially when the pipeline is executed using `run()`
 #' @param pipeline an initialized  sewage pipeline
 #' @param component a function to be executed. Must be a valid function specification
+#' @param name a name to give to the given component. This will be used as the `input` parameter for downstream nodes
 #' @param input the node to use as input into `component`. Input must already be specified in the pipeline. Inputs that create circular dependencies will throw an error.
+#' @param ... additional arguments to be passed to the `component` argument
 #' @returns a `sewage_pipeline` object
 #' @export
 add_node = function(pipeline, component, name, input, ...) {

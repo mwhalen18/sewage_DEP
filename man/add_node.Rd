@@ -11,7 +11,11 @@ add_node(pipeline, component, name, input, ...)
 
 \item{component}{a function to be executed. Must be a valid function specification}
 
+\item{name}{a name to give to the given component. This will be used as the `input` parameter for downstream nodes}
+
 \item{input}{the node to use as input into `component`. Input must already be specified in the pipeline. Inputs that create circular dependencies will throw an error.}
+
+\item{...}{additional arguments to be passed to the `component` argument}
 }
 \value{
 a `sewage_pipeline` object
