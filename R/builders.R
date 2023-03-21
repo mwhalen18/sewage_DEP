@@ -31,6 +31,15 @@ add_node = function(pipeline, component, name, input, ...) {
 
 # -----------------------------------------------------
 
+#' add a base component to a specified pipeline
+#' @param component an object o either `Node` or `Splitter`
+#' @param envir calling environment. Used for construction of calls from the pipeline entry
+#' @export
+add_component_to_pipeline = function(component, envir) {
+  UseMethod("add_component_to_pipeline", component)
+}
+
+
 #' @export
 add_component_to_pipeline.function = function(component, envir = parent.frame()) {
   call = construct_caller(envir = envir)
@@ -45,11 +54,11 @@ add_component_to_pipeline.function = function(component, envir = parent.frame())
 }
 
 #' @export
-add_component_to_pipeline.sewage_splitter = function(splitter, envir = parent.frame()) {
-  splitter$input = envir$input
-  splitter$name = envir$name
+add_component_to_pipeline.sewage_splitter = function(component, envir = parent.frame()) {
+  component$input = envir$input
+  component$name = envir$name
 
-  envir$pipeline[['nodes']][[envir$name]] = splitter
+  envir$pipeline[['nodes']][[envir$name]] = component
   return(envir$pipeline)
 }
 
@@ -63,9 +72,4 @@ construct_caller = function(envir = parent.frame()) {
   args = c(as.list(.FUN), input, dots)
 
   as.call(args)
-}
-
-#' @export
-add_component_to_pipeline = function(x, ...) {
-  UseMethod("add_component_to_pipeline", x)
 }

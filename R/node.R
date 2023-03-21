@@ -18,6 +18,9 @@ is_node = function(x) {
   inherits(x, "sewage_node")
 }
 
+#' Initialize a splitter objects
+#' @param edges number out outputs. Must be greater than 1
+#' @export
 Splitter = function(edges = 2) {
   if(edges <= 1) {
     stop("edges must be > 1")
@@ -40,41 +43,50 @@ is_splitter = function(x) {
   inherits(x, "sewage_splitter")
 }
 
-execute.sewage_node = function(node, envir = parent.frame()) {
+
+#' execute a pipeline component
+#' @param x component node to be executed
+#' @param envir calling environment
+#' @export
+execute = function(x, envir) {
+  UseMethod("execute", x)
+}
+
+#' @export
+execute.sewage_splitter = function(x, envir = parent.frame()) {
   outputs = envir$pipeline$outputs
-  input = node[['input']]
-  call = node$call
+  input  = x[['input']]
+
+  output = list()
+
+  for(i in 1:x$edges) {
+    output[[i]] = outputs[[input]]
+  }
+
+  names(output) = paste0(x$name, ".output_", 1:x$edges)
+
+  out = c(outputs, output)
+  out[[input]] = NULL
+
+  envir$pipeline$outputs = out
+
+  return(envir$pipeline)
+}
+
+#' @export
+execute.sewage_node = function(x, envir = parent.frame()) {
+  outputs = envir$pipeline$outputs
+  input = x[['input']]
+  call = x$call
   call[[2]] = outputs[[input]]
   output = eval(call, envir = parent.frame(n = 2))
 
   output = list(name = output)
-  names(output) = node$name
+  names(output) = x$name
 
   out = c(outputs, output)
   out[[input]] = NULL
 
-  # name = node$name
-
-  envir$pipeline$outputs = out
-  #names(envir$pipeline$outputs) = c(name)
-
-  return(envir$pipeline)
-}
-
-execute.sewage_splitter = function(splitter, envir = parent.frame()) {
-  outputs = envir$pipeline$outputs
-  input  = splitter[['input']]
-
-  output = list()
-
-  for(i in 1:splitter$edges) {
-    output[[i]] = outputs[[input]]
-  }
-
-  names(output) = paste0(splitter$name, ".output_", 1:splitter$edges)
-
-  out = c(outputs, output)
-  out[[input]] = NULL
 
   envir$pipeline$outputs = out
 
@@ -82,6 +94,3 @@ execute.sewage_splitter = function(splitter, envir = parent.frame()) {
 }
 
 
-execute = function(x, ...) {
-  UseMethod("execute", x)
-}
