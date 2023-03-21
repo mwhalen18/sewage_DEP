@@ -31,6 +31,7 @@ add_node = function(pipeline, component, name, input, ...) {
 
 # -----------------------------------------------------
 
+#' @export
 add_component_to_pipeline.function = function(component, envir = parent.frame()) {
   call = construct_caller(envir = envir)
   node = Node(
@@ -43,6 +44,7 @@ add_component_to_pipeline.function = function(component, envir = parent.frame())
   return(envir$pipeline)
 }
 
+#' @export
 add_component_to_pipeline.sewage_splitter = function(splitter, envir = parent.frame()) {
   splitter$input = envir$input
   splitter$name = envir$name
