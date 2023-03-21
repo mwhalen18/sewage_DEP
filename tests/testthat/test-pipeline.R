@@ -5,5 +5,6 @@ test_that("pipeline creates pipeline object", {
 
 
 test_that("run fails for non-pipelines", {
-  stop("Not Implemented")
+  pipeline = list()
+  expect_error(run(pipeline, file = 'temp.csv'), regexp = "pipeline object must be of type 'sewage_pipeline'")
 })

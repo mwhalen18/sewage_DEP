@@ -19,6 +19,9 @@ is_node = function(x) {
 }
 
 Splitter = function(edges = 2) {
+  if(edges <= 1) {
+    stop("edges must be > 1")
+  }
   out = init_splitter()
   return(out)
 }
