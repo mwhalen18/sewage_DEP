@@ -4,6 +4,8 @@
 # sewage
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/mwhalen18/sewage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mwhalen18/sewage/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of sewage is to provide a light-weight pipelining interface for
@@ -53,6 +55,12 @@ edge in the format `.output_{i}`. Currently this suffix cannot be
 modified
 
 ``` r
+library(readr)
+#> 
+#> Attaching package: 'readr'
+#> The following objects are masked from 'package:testthat':
+#> 
+#>     edition_get, local_edition
 pipeline = Pipeline()
 
 pipeline = pipeline |>
