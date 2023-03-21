@@ -9,7 +9,7 @@ run(pipeline, ...)
 \arguments{
 \item{pipeline}{an initialized pipeline object}
 
-\item{...}{parameter to pass to first node of the pipeline. This should match the \code{input} parameter of \code{add_node} of the first node.}
+\item{...}{parameter(s) to pass to first node of the pipeline. This should match the \code{input} parameter of \code{add_node} of the first node. In the case that you have multiple inputs, each argument should match the}
 }
 \description{
 This function is the extry point for executing a pipeline object
