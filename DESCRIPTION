@@ -2,11 +2,10 @@ Package: sewage
 Type: Package
 Title: A light-weight pipelining tool for data analysis
 Version: 0.1.0
-Author: Matthew Whalen
+Author: person("Whalen", "Matthew", "matthew.whalen18@gmail.com", role = c("aut", "cre"))
 Maintainer: Matthew Whalen <matthew.whalen18@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: Moving from dense scripts of functions and workflows to a full-fledged ETL or DAG tool can be daunting. The gola of 'sewage' is to be a lightweight tool for organizing data analysis pipelines and make complex workflows more modular and easier to interpret.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.1

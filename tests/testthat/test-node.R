@@ -1,35 +1,35 @@
 test_that("Node returns a node type", {
-  stop("Not Implemented")
+  node = Node(input = "foo", call = read.csv, name = "bar")
+  expect_s3_class(node, "sewage_node")
 })
 
 test_that("Splitter returns a splitter type", {
-  stop("Not Implemented")
+  splitter = Splitter(edges = 2)
+  expect_s3_class(splitter, "sewage_splitter")
+})
+
+test_that("Splitter disallows less than 1 edge", {
+  expect_error(Splitter(edges = 1))
 })
 
 test_that("Splitter results in split", {
-  stop("Not Implemented")
+  pipeline = Pipeline()
+  pipeline = pipeline |>
+    add_node(component = Splitter(), name = "Splitter", input = "data")
+
+  output = run(pipeline, data = mtcars)
+
+  expect_equal(length(output$outputs), 2)
 })
 
-test_that("Executing splitter works for global functions" {
-  stop("")
-})
+test_that("Splitter results in n splits", {
+  n_splits = 4
 
-test_that("Executing node works for global functions" {
-  stop("")
-})
+  pipeline = Pipeline()
+  pipeline = pipeline |>
+    add_node(component = Splitter(edges = n_splits), name = "Splitter", input = "data")
 
-test_that("Executing splitter works for builtin functions" {
-  stop("")
-})
+  output = run(pipeline, data = mtcars)
 
-test_that("Executing node works for builtin functions" {
-  stop("")
-})
-
-test_that("Executing splitter works for explicit functions" {
-  stop("")
-})
-
-test_that("Executing node works for explicit functions" {
-  stop("")
+  expect_equal(length(output$outputs), n_splits)
 })
