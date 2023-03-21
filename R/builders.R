@@ -69,7 +69,7 @@ construct_caller = function(envir = parent.frame()) {
   input = envir$input
   dots = envir$dots
 
-  args = c(as.list(.FUN), input, dots)
+  args = c(list(.FUN), input, dots)
 
   as.call(args)
 }
