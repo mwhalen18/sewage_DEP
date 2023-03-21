@@ -10,7 +10,7 @@ Pipeline = function() {
 #'
 #' This function is the extry point for executing a pipeline object
 #' @param pipeline an initialized pipeline object
-#' @param ... parameter to pass to first node of the pipeline. This should match the `input` parameter of `add_node` of the first node.
+#' @param ... parameter(s) to pass to first node of the pipeline. This should match the `input` parameter of `add_node` of the first node. In the case that you have multiple inputs, each argument should match the
 #' @export
 run = function(pipeline, ...) {
 
@@ -20,11 +20,8 @@ run = function(pipeline, ...) {
 
   dots = list(...)
 
-  arg = names(dots)[1]
-  value = dots[[arg]]
-
-  pipeline[['outputs']] = list(arg = value)
-  names(pipeline$outputs) = c(arg)
+  pipeline[['outputs']] = dots
+  names(pipeline$outputs) = names(dots)
 
   nodes = pipeline$nodes
 
@@ -35,7 +32,6 @@ run = function(pipeline, ...) {
   return(pipeline)
 
 }
-
 
 init_pipeline = function() {
   pipeline = list(
