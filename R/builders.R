@@ -63,6 +63,7 @@ construct_caller = function(envir = parent.frame()) {
   as.call(args)
 }
 
+#' @export
 add_component_to_pipeline = function(x, ...) {
   UseMethod("add_component_to_pipeline", x)
 }
