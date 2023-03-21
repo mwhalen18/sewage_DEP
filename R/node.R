@@ -43,6 +43,24 @@ is_splitter = function(x) {
   inherits(x, "sewage_splitter")
 }
 
+Joiner = function(method) {
+  out = init_joiner()
+  attr(out, "class") = "sewage_joiner"
+  return(out)
+}
+
+init_joiner = function(envir = parent.frame()) {
+  joiner = list(
+    method = envir$method
+  )
+
+  return(joiner)
+}
+
+is_joiner = function(x) {
+  inherits(x, "sewage_joiner")
+}
+
 
 #' execute a pipeline component
 #' @param x component node to be executed
