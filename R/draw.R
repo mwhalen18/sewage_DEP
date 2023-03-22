@@ -30,8 +30,13 @@ construct_dag = function(pipeline) {
   }
 
   for (node in pipeline$nodes) {
-    names = append(names, node$name)
+    name = node$name
+    if(inherits(node, "sewage_joiner")) {
+      name = c(name, name)
+    }
+    names = append(names, name)
   }
+
 
   inputs = gsub(".output_[0-9]{1,2}", "", inputs)
   mat = matrix(c(inputs, names), nrow = length(inputs), byrow=FALSE)

@@ -33,3 +33,18 @@ test_that("Splitter results in n splits", {
 
   expect_equal(length(output$outputs), n_splits)
 })
+
+test_that("Joiner results in 1 output", {
+  n_outputs = 1
+  pipeline = Pipeline()
+  pipeline = pipeline |>
+    add_node(component = as.data.frame, name = "df1", input = "data1") |>
+    add_node(component = as.data.frame, name = "df2", input = "data2") |>
+    add_node(component = Joiner(method = "rbind"), name = "Joiner", input = c("df1", "df2"))
+  output = run(pipeline, data1 = mtcars, data2 = mtcars)
+
+  expect_equal(length(output$outputs), 1)
+
+})
+
+

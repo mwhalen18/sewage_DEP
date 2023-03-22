@@ -62,6 +62,21 @@ add_component_to_pipeline.sewage_splitter = function(component, envir = parent.f
   return(envir$pipeline)
 }
 
+#' @export
+add_component_to_pipeline.sewage_joiner = function(component, envir = parent.frame()) {
+  component$input = envir$input
+  component$name = envir$name
+
+  .FUN = as.name(component$method)
+  args = c(list(.FUN), envir$input[1], envir$input[2], envir$dots)
+
+  component$call = as.call(args)
+
+  envir$pipeline[['nodes']][[envir$name]] = component
+
+  return(envir$pipeline)
+}
+
 # -----------------------------------------------------
 
 construct_caller = function(envir = parent.frame()) {
