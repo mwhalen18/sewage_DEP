@@ -99,7 +99,7 @@ result$outputs$Summarizer
 
 It is also possible to pass in multiple entrypoints by specifying the inputs in your arguments. This allows you to process multiple documents and bring them together using a `Joiner`. The `Joiner` will take 2 inputs and convert them to a single output in the pipeline according to the function specified. This component works nicely for `dplyr`-like joins, but is not restricted to these methods. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(dplyr)
 pipeline = Pipeline()
 pipeline = pipeline |>
@@ -108,7 +108,6 @@ pipeline = pipeline |>
   add_node(Joiner(method = "bind_rows"), name = "Joiner", input = c("Reader", "Subsetter"))
 
 output = run(pipeline, file = "temp.csv", data = mtcars)
-output$outputs$Joiner
 ```
 
 
