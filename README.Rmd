@@ -34,13 +34,13 @@ devtools::install_github("mwhalen18/sewage")
 
 ## Example
 
-Below is an example of a simple pipeline that can be constructed. 
+Below is an example of how to construct a simple pipeline.
 
 ```{r example, eval=FALSE}
 library(sewage)
 ```
 
-You can use any function as a component in the pipeline, including custon functions you define or import from an external source.
+You can use any function as a component in the pipeline, including custom functions you define or import from an external source.
 
 ```{r}
 subset_data = function(x) {
@@ -52,11 +52,11 @@ summarizer = function(x) {
 }
 ```
 
-Currently, there are 2 components ready for use. Basic `Nodes` and `Splitters`. Nodes take one object as imput and return exactly one object. Splitters take in exactly one object and may return any number of outputs greater than 1. 
+Currently, there are 3 components ready for use. Basic `Nodes`, `Splitters`, and `Joiners`. Nodes take one object as input and return exactly one object. Splitters take in exactly one object and may return any number of outputs greater than 1. `Joiners` take in exactly 2 objects and return 1 object according to the method you pass to the `Joiner` (More on Joiners below).
 
 The first node in your pipeline should specify the argument that will be passed into the pipeline when we execute it (More on this below).
 
-Note outputs of a Splitter are accessible by specifying the name of the splitter component (In this case `Splitter`) suffixed with the outgoing edge in the format `.output_{i}`. Currently this suffix cannot be modified
+Note outputs of a Splitter are accessible by specifying the name of the splitter component (In this case `Splitter`) suffixed with the outgoing edge in the format `.output_{i}`.
 
 ```{r}
 pipeline = Pipeline()
@@ -79,7 +79,7 @@ draw(pipeline)
 
 Here we execute the pipeline with the `run` command. It is important to note that the argument you pass to run should match the `input` argument of your first node in your pipeline. In this case we are passing a `file` argument in `run` and similarly our first node is set to receive a `file` argument as input.
 
-You may choose any argument you like, as long as these two arguments match!
+You may choose any argument name you like, as long as these two arguments match!
 
 ```{r}
 result = run(pipeline, file = 'temp.csv')
@@ -95,6 +95,27 @@ result$outputs$Subsetter
 result$outputs$Summarizer
 ```
 
+## Multiple Entrypoints
+
+It is also possible to pass in multiple entrypoints by specifying the inputs in your arguments. This allows you to process multiple documents and bring them together using a `Joiner`. The `Joiner` will take 2 inputs and convert them to a single output in the pipeline according to the function specified. This component works nicely for `dplyr`-like joins, but is not restricted to these methods. 
+
+```{r}
+library(dplyr)
+pipeline = Pipeline()
+pipeline = pipeline |>
+  add_node(read.csv, name = "Reader", input = "file") |>
+  add_node(subset_data, name = "Subsetter", input = "data") |>
+  add_node(Joiner(method = "bind_rows"), name = "Joiner", input = c("Reader", "Subsetter"))
+
+output = run(pipeline, file = "temp.csv", data = mtcars)
+output$outputs$Joiner
+```
+
+
+Using these three components (`Nodes`, `Splitters` and `Joiners`) you can construct very complex data pipelines and run them in a single call. 
+
+
 # Why sewage?
 
-What is the point of `{sewage}` over more robust ETL pipelining tools like `{targets}` or Airflow? Honestly, if you feel comfortable using more heavy-weight tools you should. This package privides a light-weight interface to visualize and organize complex cleaning/processing/visualization scripts. 
+What is the point of `{sewage}` over more robust orchestrations tools like `{targets}` or Airflow? First, `sewage` is not an orchestration tool. Its primary purpose is to help modularize and organize complex data analysis scripts. If you feel comfortable using packages like {targets} or {airflow} you probably should. 
+
