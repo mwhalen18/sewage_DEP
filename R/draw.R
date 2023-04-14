@@ -9,6 +9,7 @@ draw.sewage_pipeline = function(pipeline, ...) {
 #' Visualize a pipeline
 #' @param pipeline an instantiated pipeline
 #' @param ... reserved for future use
+#' @export
 draw = function(pipeline, ...) {
   UseMethod("draw")
 }
