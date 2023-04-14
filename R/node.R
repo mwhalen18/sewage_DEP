@@ -43,6 +43,9 @@ is_splitter = function(x) {
   inherits(x, "sewage_splitter")
 }
 
+#' Initialize a Joiner object
+#' @param method function to join incoming objects together
+#' @export
 Joiner = function(method) {
   out = init_joiner()
   attr(out, "class") = "sewage_joiner"
