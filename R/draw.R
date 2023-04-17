@@ -7,6 +7,7 @@ draw.sewage_pipeline = function(pipeline, ...) {
 }
 
 #' Visualize a pipeline
+#' @description This function draws a DAG of the existing pipeline flow. For additional information see \link[igraph]{spec_viz}
 #' @param pipeline an instantiated pipeline
 #' @param ... reserved for future use
 #' @export
