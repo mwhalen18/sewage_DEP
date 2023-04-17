@@ -8,4 +8,11 @@
 \description{
 Moving from dense scripts of functions and workflows to a full-fledged ETL or DAG tool can be daunting. The gola of 'sewage' is to be a lightweight tool for organizing data analysis pipelines and make complex workflows more modular and easier to interpret.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://mwhalen18.github.io/sewage/}
+}
+
+}
 \keyword{internal}
