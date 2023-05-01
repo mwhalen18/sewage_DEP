@@ -12,5 +12,5 @@ draw(pipeline, ...)
 \item{...}{reserved for future use}
 }
 \description{
-This function draws a DAG of the existing pipeline flow. For additional information see \link[igraph]{spec_viz}
+This function draws a DAG of the existing pipeline flow. For additional information see \code{igraph::spec_viz}
 }
